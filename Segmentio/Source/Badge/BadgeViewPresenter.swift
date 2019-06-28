@@ -10,7 +10,7 @@ import UIKit
 
 class BadgeViewPresenter {
     
-    func addBadgeForContainerView(_ containerView: UIView, counterValue: Int, backgroundColor: UIColor = .red,
+    func addBadgeForContainerView(_ containerView: UIView, titleLabel: UILabel, counterValue: Int, backgroundColor: UIColor = .red,
                                   badgeSize: BadgeSize = .standard) {
         var badgeView: BadgeWithCounterView!
         for view in containerView.subviews {
@@ -25,7 +25,7 @@ class BadgeViewPresenter {
             badgeView.translatesAutoresizingMaskIntoConstraints = false
             containerView.addSubview(badgeView)
             containerView.bringSubviewToFront(badgeView)
-            setupBadgeConstraints(badgeView, counterValue: counterValue)
+            setupBadgeConstraints(badgeView, titleLabel: titleLabel, counterValue: counterValue)
         }
     }
     
@@ -37,31 +37,27 @@ class BadgeViewPresenter {
         }
     }
     
-    fileprivate func setupBadgeConstraints(_ badgeView: BadgeWithCounterView, counterValue: Int) {
-        var constraintConstant:CGFloat = -5.0
-        if counterValue > 9 {
-            constraintConstant = -10.0
-        }
+    fileprivate func setupBadgeConstraints(_ badgeView: BadgeWithCounterView, titleLabel: UILabel, counterValue: Int) {
         let segmentTitleLabelHorizontalCenterConstraint =
             NSLayoutConstraint(
                 item: badgeView,
-                attribute: .top,
+                attribute: .centerY,
                 relatedBy: .equal,
                 toItem: badgeView.superview,
-                attribute: .top,
+                attribute: .centerY,
                 multiplier: 1,
-                constant: 6.0
+                constant: 0.0
         )
         
         let segmentTitleLabelVerticalCenterConstraint =
             NSLayoutConstraint(
                 item: badgeView,
-                attribute: .trailing,
+                attribute: .leading,
                 relatedBy: .equal,
-                toItem: badgeView.superview,
+                toItem: titleLabel,
                 attribute: .trailing,
                 multiplier: 1,
-                constant: constraintConstant
+                constant: 20
         )
         segmentTitleLabelHorizontalCenterConstraint.isActive = true
         segmentTitleLabelVerticalCenterConstraint.isActive = true

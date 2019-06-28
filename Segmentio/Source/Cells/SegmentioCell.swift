@@ -63,7 +63,7 @@ class SegmentioCell: UICollectionViewCell {
         if let imageContainerView = imageContainerView {
             contentView.addSubview(imageContainerView)
         }
-
+        
         segmentImageView = UIImageView(frame: CGRect.zero)
         if let segmentImageView = segmentImageView, let imageContainerView = imageContainerView {
             imageContainerView.addSubview(segmentImageView)
@@ -78,7 +78,7 @@ class SegmentioCell: UICollectionViewCell {
         if let segmentTitleLabel = segmentTitleLabel, let containerView = containerView {
             containerView.addSubview(segmentTitleLabel)
         }
-
+        
         segmentImageView?.translatesAutoresizingMaskIntoConstraints = false
         segmentTitleLabel?.translatesAutoresizingMaskIntoConstraints = false
         containerView?.translatesAutoresizingMaskIntoConstraints = false
@@ -144,7 +144,7 @@ class SegmentioCell: UICollectionViewCell {
             segmentTitleLabel?.minimumScaleFactor = 0.5
             segmentTitleLabel?.adjustsFontSizeToFitWidth = true
         }
-                
+        
         if (style != .onlyLabel) {
             segmentImageView?.image = selected ? selectedImage : image
         }
@@ -159,6 +159,7 @@ class SegmentioCell: UICollectionViewCell {
         if style == .onlyImage {
             badgePresenter.addBadgeForContainerView(
                 imageContainerView!,
+                titleLabel: segmentTitleLabel!,
                 counterValue: badgeCount,
                 backgroundColor: color,
                 badgeSize: .standard
@@ -166,6 +167,7 @@ class SegmentioCell: UICollectionViewCell {
         } else {
             badgePresenter.addBadgeForContainerView(
                 containerView!,
+                titleLabel: segmentTitleLabel!,
                 counterValue: badgeCount,
                 backgroundColor: color,
                 badgeSize: .standard
@@ -178,7 +180,7 @@ class SegmentioCell: UICollectionViewCell {
         setupImageContainerConstraints()
         return // implement in subclasses
     }
-
+    
     // MARK: - Private functions
     
     private func setupContainerConstraints() {
@@ -195,30 +197,21 @@ class SegmentioCell: UICollectionViewCell {
             multiplier: 1,
             constant: 0
         )
-        let segmentTitleLabelTrailingConstraint = NSLayoutConstraint(
+        
+        let segmentTitleLabelHorizontalCenterConstraint = NSLayoutConstraint(
             item: segmentTitleLabel,
-            attribute: .trailing,
+            attribute: .centerX,
             relatedBy: .equal,
             toItem: containerView,
-            attribute: .trailingMargin,
-            multiplier: 1.0,
-            constant: 0
-        )
-        let segmentTitleLabelLeadingConstraint = NSLayoutConstraint(
-            item: segmentTitleLabel,
-            attribute: .leading,
-            relatedBy: .equal,
-            toItem: containerView,
-            attribute: .leadingMargin,
-            multiplier: 1.0,
+            attribute: .centerX,
+            multiplier: 1,
             constant: 0
         )
         
         addConstraints([
-            segmentTitleLabelTrailingConstraint,
             segmentTitleLabelVerticalCenterConstraint,
-            segmentTitleLabelLeadingConstraint
-        ])
+            segmentTitleLabelHorizontalCenterConstraint
+            ])
     }
     
     private func setupImageContainerConstraints() {
@@ -279,7 +272,7 @@ class SegmentioCell: UICollectionViewCell {
             segmentImageViewTopConstraint
             ])
     }
-
+    
     
     private func setupContent(content: SegmentioItem) {
         if style.isWithImage() {
@@ -307,7 +300,7 @@ class SegmentioCell: UICollectionViewCell {
             bottomConstraint?.constant = padding + indicatorOptions.height
         }
     }
-
+    
     // MARK: - Vertical separator
     
     private func addVerticalSeparator() {
